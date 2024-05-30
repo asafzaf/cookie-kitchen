@@ -10,6 +10,7 @@ app.use(express.json());
 
 // Sample route
 app.get('/', (req, res) => {
+    console.log('got GET request');
     res.send('Hello World!');
 });
 
