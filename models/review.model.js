@@ -1,5 +1,4 @@
-const { Schema, model } = require("mongoose");
-const { required } = require("yargs");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 const reviewSchema = new Schema({
     title: {
@@ -13,5 +12,11 @@ const reviewSchema = new Schema({
     photo: {
         type: String,
         default: false,
-    }
+    },
+    likers: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }
+    ]
 });
