@@ -1,34 +1,23 @@
 // app.js
 
-require('dotenv').config();
+require('dotenv').config({path: '.env.dev'});
 const express = require('express');
 const app = express();
+const globalErrorHandler = require("./controllers/error.controller");
 const port = process.env.PORT || 3000;
 
+const mainRouter = require('./routers/main.router');
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Sample route
-app.get('/', (req, res) => {
-    console.log('got GET request');
-    res.send('Hello World!');
-});
+app.use("/api/v1", mainRouter);
 
-// Additional routes
-app.get('/about', (req, res) => {
-    res.send('About Page');
-});
+app.all("*", (req, res, next) => {
+    next(new NotFoundError(req.originalUrl));
+  });
+  
+app.use(globalErrorHandler);
 
-app.post('/data', (req, res) => {
-    const data = req.body;
-    res.send(`Data received: ${JSON.stringify(data)}`);
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
 
 // Start the server
 const server = app.listen(port, () => {

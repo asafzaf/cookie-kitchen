@@ -18,5 +18,9 @@ const reviewSchema = new Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'User'
         }
-    ]
+    ],
+    numberOfLikes: {
+        type: Number,
+        default: 0
+    }
 });
